@@ -26,6 +26,28 @@
                     }
                 });
             });
+            $('.display-object').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '@Url.Action("DisplayObject")',
+                    success: function (result) {
+                        var resultString = 'Id: ' + result.id + '<br>City: ' + result.city + '<br>Country: ' + result.country;
+                        $('#result3').html(resultString);
+                    }
+                });
+            });
+            $('.display-view').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: '@Url.Action("DisplayViewWithAjax")',
+                    success: function (result) {
+                        $('#result4').html(result);
+                    }
+                });
+            });
         });
     </script>
 
@@ -38,5 +60,13 @@
     <h2>Using Parameters</h2>
     <h4 class="sum">Sum</h4>
     <div id="result2"></div>
+
+    <h2>Using JSON to display an object</h2>
+    <h4 class="display-object">Display object</h4>
+    <div id="result3"></div>
+
+    <h2>Displaying a view</h2>
+    <h4 class="display-view">Display view</h4>
+    <div id="result4"></div>
 </body>
 </html>
