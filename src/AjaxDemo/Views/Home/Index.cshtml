@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>AJAX Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".hello-ajax").click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("HelloAjax")',
+                    success: function (result) {
+                        $('#result1').html(result);
+                    }
+                })
+            });
+
+            $('.sum').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    data: { firstNumber: 1, secondNumber: 2 },
+                    url: '@Url.Action("Sum")',
+                    success: function (result) {
+                        $('#result2').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <h1>Ajax Demo</h1>
+    <h4 class="hello-ajax">Hello AJAX</h4>
+    <div id="result1"></div>
+
+    <h2>Using Parameters</h2>
+    <h4 class="sum">Sum</h4>
+    <div id="result2"></div>
+</body>
+</html>
