@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using AjaxDemo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AjaxDemo
 {
@@ -18,11 +20,16 @@ namespace AjaxDemo
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath);
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AjaxDemoContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddEntityFramework()
+                .AddEntityFrameworkSqlServer();
             services.AddMvc();
         }
 

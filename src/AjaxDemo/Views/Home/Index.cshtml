@@ -48,9 +48,40 @@
                     }
                 });
             });
+            $('.display-random-database-items').submit(function (event) {
+                event.preventDefault();
+                console.log($(this).serialize());
+                $.ajax({
+                    url: '@Url.Action("RandomDestinationList")',
+                    type: 'GET',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        var stringResult = '<ul>';
+                        for (var i = 0; i < result.length; i++) {
+                            stringResult += '<li>' + result[i].city + ', ' + result[i].country + '</li>';
+                        }
+                        stringResult += '</ul>';
+                        $('#result5').html(stringResult);
+                    }
+                });
+            });
+            $('.new-destination').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("NewDestination")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        var resultMessage = 'You\'ve added a new destination to the database!<br>Id: ' + result.id + '<br>City: ' + result.city + '<br>Country: ' + result.country;
+                        $('#result6').html(resultMessage);
+                    }
+                });
+            });
         });
     </script>
-
+     
 </head>
 <body>
     <h1>Ajax Demo</h1>
@@ -68,5 +99,23 @@
     <h2>Displaying a view</h2>
     <h4 class="display-view">Display view</h4>
     <div id="result4"></div>
+
+    <h2>Using a form to make a GET request</h2>
+    <form action="RandomDestinationList" class="display-random-database-items">
+        <label for="destinationCount">How many destinations would you like to see?</label>
+        <input type="number" name="destinationCount" />
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result5"></div>
+
+    <h2>Submitting data with a POST request</h2>
+    <form action="NewDestination" class="new-destination">
+        <label for="newCity">City: </label>
+        <input type="text" name="newCity" />
+        <label for="newCountry">Country: </label>
+        <input type="text" name="newCountry" />
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result6"></div>
 </body>
 </html>
